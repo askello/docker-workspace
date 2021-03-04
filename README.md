@@ -9,3 +9,13 @@ To start up workspace, run:
 ```
 docker-compose up -d
 ```
+
+Edit hosts file (`C:\Windows\System32\drivers\etc\hosts`):
+```
+127.0.0.1 php-74.docker
+127.0.0.1 php-80.docker
+127.0.0.1 phpmyadmin.docker
+```
+
+This workspace is based on
+[drandin/docker-php-workspace](https://github.com/drandin/docker-php-workspace)
