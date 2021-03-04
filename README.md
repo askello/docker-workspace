@@ -17,7 +17,11 @@ Edit hosts file (`C:\Windows\System32\drivers\etc\hosts`):
 127.0.0.1 phpmyadmin.docker
 ```
 
-Enter into container:
+Phpmyadmin setup:
+- download [phpmyadmin](https://www.phpmyadmin.net/) and put it into `/www/phpmyadmin`
+- change config's permissions if needed (`chmod 555 config.inc.php`) 
+
+How to enter into any container:
 ```
 docker-compose exec php-7.4 bash
 ```
