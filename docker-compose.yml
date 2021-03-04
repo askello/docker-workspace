@@ -77,4 +77,3 @@ services:
       - ./mysql/8.0/conf.d:/etc/mysql/conf.d
       - ./mysql/8.0/logs:/var/log/mysql/
       - ./mysql/8.0/dump:/dump
-  
