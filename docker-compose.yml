@@ -17,37 +17,41 @@ services:
     depends_on:
       - php-7.4
       - php-8.0
-      
+
   php-7.4:
-    image: php:7.4-fpm-alpine
     container_name: php-7.4
-    restart: unless-stopped
-    environment:
-      DOCKER_PHP_VERSION: '7.4'
-      TZ: ${TIMEZONE}
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+      args:
+        WORKSPACE_PHP_VERSION: '7.4'
+        TZ: ${TIMEZONE}
     working_dir: /var/www
+    restart: unless-stopped
     volumes:
       - ./www:/var/www
       - ./php/7.4/php.ini:/usr/local/etc/php/php.ini
     depends_on:
       - mysql-5.7
       - mysql-8.0
-      
+
   php-8.0:
-    image: php:8.0-fpm-alpine
     container_name: php-8.0
-    restart: unless-stopped
-    environment:
-      DOCKER_PHP_VERSION: '8.0'
-      TZ: ${TIMEZONE}
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+      args:
+        WORKSPACE_PHP_VERSION: '8.0'
+        TZ: ${TIMEZONE}
     working_dir: /var/www
+    restart: unless-stopped
     volumes:
       - ./www:/var/www
       - ./php/8.0/php.ini:/usr/local/etc/php/php.ini
     depends_on:
       - mysql-5.7
       - mysql-8.0
-      
+
   mysql-5.7:
     image: mysql:5.7
     container_name: mysql-5.7
@@ -60,7 +64,7 @@ services:
       - ./mysql/5.7/conf.d:/etc/mysql/conf.d
       - ./mysql/5.7/logs:/var/log/mysql/
       - ./mysql/5.7/dump:/dump
-      
+
   mysql-8.0:
     image: mysql:8.0
     container_name: mysql-8.0
