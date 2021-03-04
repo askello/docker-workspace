@@ -17,5 +17,10 @@ Edit hosts file (`C:\Windows\System32\drivers\etc\hosts`):
 127.0.0.1 phpmyadmin.docker
 ```
 
+Enter into container:
+```
+docker-compose exec php-7.4 bash
+```
+
 This workspace is based on
 [drandin/docker-php-workspace](https://github.com/drandin/docker-php-workspace)
