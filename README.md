@@ -18,5 +18,5 @@ Edit hosts file (`C:\Windows\System32\drivers\etc\hosts`):
 127.0.0.1 phpmyadmin.docker
 ```
 
-This workspace is based on
+This workspace is inspired by
 [drandin/docker-php-workspace](https://github.com/drandin/docker-php-workspace)
