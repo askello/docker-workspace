@@ -22,16 +22,6 @@ services:
       - php-7.4
       - php-8.0
 
-  phpmyadmin:
-    image: phpmyadmin:fpm-alpine
-    container_name: phpmyadmin
-    restart: unless-stopped
-    volumes:
-      - phpmyadmin_data:/var/www/html/
-      - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
-    depends_on:
-      - nginx
-
   php-7.4:
     container_name: php-7.4
     build:
@@ -48,6 +38,7 @@ services:
     depends_on:
       - mysql-5.7
       - mysql-8.0
+      - redis-6.2
 
   php-8.0:
     container_name: php-8.0
@@ -65,6 +56,7 @@ services:
     depends_on:
       - mysql-5.7
       - mysql-8.0
+      - redis-6.2
 
   mysql-5.7:
     image: mysql:5.7
@@ -91,3 +83,23 @@ services:
       - ./mysql/8.0/conf.d:/etc/mysql/conf.d
       - ./mysql/8.0/logs:/var/log/mysql/
       - ./mysql/8.0/dump:/dump
+
+  phpmyadmin:
+    image: phpmyadmin:fpm-alpine
+    container_name: phpmyadmin
+    restart: unless-stopped
+    volumes:
+      - phpmyadmin_data:/var/www/html/
+      - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+    depends_on:
+      - mysql-5.7
+      - mysql-8.0
+
+  redis-6.2:
+    image: redis:6.2-alpine
+    container_name: redis-6.2
+    environment:
+      TZ: ${TIMEZONE}
+    volumes:
+      - ./redis/6.2/data:/var/lib/redis
+      - ./redis/6.2/conf:/usr/local/etc/redis/redis.conf

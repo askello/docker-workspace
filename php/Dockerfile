@@ -83,10 +83,18 @@ RUN php -m && \
         soap \
         zip \
         calendar \
-        pdo_mysql
+        pdo_mysql && \
+    pecl install redis && \
+    docker-php-ext-enable redis
 
 # Clean
 RUN rm -rf /var/cache/apk/* && docker-php-source delete
+
+
+USER root
+
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
 
 USER www-data:www-data
 
