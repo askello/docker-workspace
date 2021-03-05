@@ -1,0 +1,6 @@
+<?php
+
+for ($i = 0; $i < 10; $i++) {
+    sleep(1);
+    echo date('H:i:s - ') . 'php-74:worker:' . $i . PHP_EOL;
+}

@@ -45,6 +45,7 @@ services:
     volumes:
       - ./www:/var/www
       - ./php/7.4/php.ini:/usr/local/etc/php/php.ini
+      - ./php/7.4/supervisor/supervisor.d:/etc/supervisor.d
     depends_on:
       - mysql-5.7
       - mysql-8.0
