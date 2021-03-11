@@ -5,7 +5,8 @@ Workspace includes:
 - PHP (7.4, 8.0)
 - MySQL (5.7, 8.0)
 - PhpMyAdmin
-- Redis (6.2)
+- Redis
+- Grafana
 
 To start up workspace, run:
 ```
