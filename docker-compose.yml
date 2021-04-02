@@ -1,0 +1,115 @@
+version: '3.8'
+
+volumes:
+  phpmyadmin_data:
+
+services:
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./www:/var/www
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/nginx/logs:/var/log/nginx/
+      - phpmyadmin_data:/var/www/phpmyadmin.docker/:ro
+    environment:
+      TZ: ${TIMEZONE}
+    depends_on:
+      - php-7.4
+      - php-8.0
+
+  php-7.4:
+    container_name: php-7.4
+    build:
+      context: docker/php
+      dockerfile: Dockerfile
+      args:
+        WORKSPACE_PHP_VERSION: '7.4'
+        TZ: ${TIMEZONE}
+    working_dir: /var/www
+    restart: unless-stopped
+    volumes:
+      - ./www:/var/www
+      - ./docker/php/7.4/php.ini:/usr/local/etc/php/php.ini
+    depends_on:
+      - mysql-5.7
+      - mysql-8.0
+      - redis-6.2
+
+  php-8.0:
+    container_name: php-8.0
+    build:
+      context: docker/php
+      dockerfile: Dockerfile
+      args:
+        WORKSPACE_PHP_VERSION: '8.0'
+        TZ: ${TIMEZONE}
+    working_dir: /var/www
+    restart: unless-stopped
+    volumes:
+      - ./www:/var/www
+      - ./docker/php/8.0/php.ini:/usr/local/etc/php/php.ini
+    depends_on:
+      - mysql-5.7
+      - mysql-8.0
+      - redis-6.2
+
+  mysql-5.7:
+    image: mysql:5.7
+    container_name: mysql-5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: ${TIMEZONE}
+    volumes:
+      - ./docker/mysql/5.7/data:/var/lib/mysql
+      - ./docker/mysql/5.7/conf.d:/etc/mysql/conf.d
+      - ./docker/mysql/5.7/logs:/var/log/mysql/
+      - ./docker/mysql/5.7/dump:/dump
+    ports:
+      - 3306:3306
+
+  mysql-8.0:
+    image: mysql:8.0
+    container_name: mysql-8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: ${TIMEZONE}
+    volumes:
+      - ./docker/mysql/8.0/data:/var/lib/mysql
+      - ./docker/mysql/8.0/conf.d:/etc/mysql/conf.d
+      - ./docker/mysql/8.0/logs:/var/log/mysql/
+      - ./docker/mysql/8.0/dump:/dump
+    ports:
+      - 3307:3306
+
+  phpmyadmin:
+    image: phpmyadmin:fpm-alpine
+    container_name: phpmyadmin
+    restart: unless-stopped
+    volumes:
+      - phpmyadmin_data:/var/www/html/
+      - ./docker/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+    depends_on:
+      - mysql-5.7
+      - mysql-8.0
+
+  redis-6.2:
+    image: redis:6.2-alpine
+    container_name: redis-6.2
+    environment:
+      TZ: ${TIMEZONE}
+    volumes:
+      - ./docker/redis/6.2/data:/var/lib/redis
+      - ./docker/redis/6.2/conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+
+  grafana:
+    image: grafana/grafana:7.4.3
+    container_name: grafana
