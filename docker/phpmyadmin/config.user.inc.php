@@ -3,6 +3,7 @@
 $servers = [
     'mysql-5.7',
     'mysql-8.0',
+    'bihive-prod.cluster-cptsbagbqhdi.eu-central-1.rds.amazonaws.com',
 ];
 
 foreach ($servers as $key => $server) {
@@ -20,3 +21,18 @@ foreach ($servers as $key => $server) {
     $cfg['Servers'][$i]['nopassword']      = true;
     $cfg['Servers'][$i]['AllowNoPassword'] = true;
 }
+
+$cfg['Servers'][] = [
+    'verbose'         => 'raw-scraper-do-user-5393656-0.b.db.ondigitalocean.com',
+    'host'            => 'raw-scraper-do-user-5393656-0.b.db.ondigitalocean.com',
+    'port'            => 25060,
+    'socket'          => '',
+    'connect_type'    => 'tcp',
+    'ssl'             => true,
+    'compress'        => false,
+    'extension'       => 'mysqli',
+    'auth_type'       => 'cookie',
+    'AllowRoot'       => true,
+    'nopassword'      => true,
+    'AllowNoPassword' => true,
+];

@@ -4,7 +4,7 @@ LEMP-oriented workspace for php-developers.
 
 Workspace includes:
 - Nginx
-- PHP (7.4, 8.0)
+- PHP (7.4, 8.1) (with configured CRON jobs)
 - MySQL (5.7, 8.0)
 - PhpMyAdmin
 - Redis
@@ -25,7 +25,7 @@ Forwarded ports (so you can connect to them from outside the docker):
 To access available services in your browser, add this to your hosts file:
 ```
 127.0.0.1 php-74.docker
-127.0.0.1 php-80.docker
+127.0.0.1 php-81.docker
 127.0.0.1 phpmyadmin.docker
 127.0.0.1 grafana.docker
 ```

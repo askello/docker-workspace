@@ -1,6 +1,4 @@
-ARG WORKSPACE_PHP_VERSION
-
-FROM php:${WORKSPACE_PHP_VERSION}-fpm-alpine
+FROM php:8.1-fpm-alpine
 
 ARG TZ='UTC'
 
@@ -56,7 +54,8 @@ RUN apk add --update --no-cache icu-libs \
         sqlite-dev \
         supervisor \
         su-exec \
-        wget
+        wget \
+        busybox-suid # needed for CRON
 
 #  Install php extensions
 RUN php -m && \
@@ -90,12 +89,9 @@ RUN php -m && \
 # Clean
 RUN rm -rf /var/cache/apk/* && docker-php-source delete
 
-
-USER root
-
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
-USER www-data:www-data
-
 WORKDIR /var/www/
+
+ENTRYPOINT ["bash", "/entrypoint.sh"]

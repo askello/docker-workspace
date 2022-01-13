@@ -20,39 +20,39 @@ services:
       TZ: ${TIMEZONE}
     depends_on:
       - php-7.4
-      - php-8.0
+      - php-8.1
 
   php-7.4:
     container_name: php-7.4
     build:
-      context: docker/php
+      context: docker/php/7.4
       dockerfile: Dockerfile
       args:
-        WORKSPACE_PHP_VERSION: '7.4'
         TZ: ${TIMEZONE}
     working_dir: /var/www
     restart: unless-stopped
     volumes:
       - ./www:/var/www
+      - ./docker/php/7.4/entrypoint.sh:/entrypoint.sh
       - ./docker/php/7.4/php.ini:/usr/local/etc/php/php.ini
     depends_on:
       - mysql-5.7
       - mysql-8.0
       - redis-6.2
 
-  php-8.0:
-    container_name: php-8.0
+  php-8.1:
+    container_name: php-8.1
     build:
-      context: docker/php
+      context: docker/php/8.1
       dockerfile: Dockerfile
       args:
-        WORKSPACE_PHP_VERSION: '8.0'
         TZ: ${TIMEZONE}
     working_dir: /var/www
     restart: unless-stopped
     volumes:
       - ./www:/var/www
-      - ./docker/php/8.0/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/php/8.1/entrypoint.sh:/entrypoint.sh
+      - ./docker/php/8.1/php.ini:/usr/local/etc/php/php.ini
     depends_on:
       - mysql-5.7
       - mysql-8.0
